@@ -5,7 +5,6 @@ import App from "./App.tsx";
 
 /**
  * TODO:
- * - create a data set for products (json)
  * - create a basic UI for testing the function module
  * - implement a discount module
  */

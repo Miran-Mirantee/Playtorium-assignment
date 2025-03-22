@@ -10,6 +10,7 @@ export enum Category {
 
 // Define a Product type
 export type Product = {
+  id: number;
   name: string;
   category: Category;
   price: number;
