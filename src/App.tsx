@@ -1,13 +1,74 @@
 import { useState, useEffect } from "react";
 import { products } from "./data/product";
-import { Product } from "./types/productType";
-
-type SelectedProduct = Product & { count: number };
+import { SelectedProduct, Product, ProductCategory } from "./types/productType";
+import { Campaign, CampaignCategory, CampaignName } from "./types/campaignType";
+import applyDiscounts from "./modules/discount";
 
 function App() {
   const [selectedProducts, setSelectedProducts] = useState<SelectedProduct[]>(
     []
   );
+
+  useEffect(() => {
+    // mock
+    applyDiscounts(
+      [
+        {
+          id: 6,
+          name: "Sunglasses",
+          category: ProductCategory.Accessories,
+          price: 1500,
+          count: 1,
+        },
+        {
+          id: 9,
+          name: "Smartphone",
+          category: ProductCategory.Electronics,
+          price: 25000,
+          count: 4,
+        },
+        {
+          id: 12,
+          name: "Bluetooth Speaker",
+          category: ProductCategory.Electronics,
+          price: 3200,
+          count: 1,
+        },
+      ],
+      [
+        {
+          id: 1,
+          name: CampaignName.Fixed,
+          category: CampaignCategory.Coupon,
+          params: [10, 10],
+        },
+        {
+          id: 2,
+          name: CampaignName.Percentage,
+          category: CampaignCategory.Coupon,
+          params: [10, 10],
+        },
+        {
+          id: 3,
+          name: CampaignName.PercentageCategory,
+          category: CampaignCategory.OnTop,
+          params: [10, 10],
+        },
+        {
+          id: 4,
+          name: CampaignName.Point,
+          category: CampaignCategory.OnTop,
+          params: [10, 10],
+        },
+        {
+          id: 5,
+          name: CampaignName.Special,
+          category: CampaignCategory.Seasonal,
+          params: [10, 10],
+        },
+      ]
+    );
+  }, []);
 
   useEffect(() => {
     console.log(selectedProducts);
@@ -66,40 +127,48 @@ function App() {
           ))}
         </div>
 
-        {/* Render list of selected products */}
-        <ul className="bg-amber-100 border-2 border-dashed w-1/3 h-1/2 p-4 flex flex-col gap-2 overflow-auto">
-          {selectedProducts.map((selectedProduct) => (
-            <li key={selectedProduct.id} className="flex justify-between">
-              <span>{selectedProduct.name}</span>
-              <span>
-                <input
-                  className="bg-amber-50 w-16 border mr-2"
-                  type="number"
-                  value={
-                    !isNaN(selectedProduct.count) ? selectedProduct.count : ""
-                  }
-                  onChange={(e) => {
-                    onChangeProductCount(
-                      selectedProduct.id,
-                      parseInt(e.target.value, 10)
-                    );
-                  }}
-                  onBlur={(e) => {
-                    if (e.target.value === "") {
-                      onChangeProductCount(selectedProduct.id, 1);
+        <span className="flex flex-col gap-4 w-1/3">
+          {/* Render list of selected products */}
+          <ul className="bg-amber-100 border-2 border-dashed h-1/3 p-4 flex flex-col gap-2 overflow-auto">
+            {selectedProducts.map((selectedProduct) => (
+              <li key={selectedProduct.id} className="flex justify-between">
+                <span>{selectedProduct.name}</span>
+                <span>
+                  <input
+                    className="bg-amber-50 w-16 border mr-2"
+                    type="number"
+                    value={
+                      !isNaN(selectedProduct.count) ? selectedProduct.count : ""
                     }
-                  }}
-                />
-                <button
-                  className="py-1 px-3 rounded-md bg-red-300 cursor-pointer"
-                  onClick={() => onClickRemoveProduct(selectedProduct.id)}
-                >
-                  Remove
-                </button>
-              </span>
-            </li>
-          ))}
-        </ul>
+                    onChange={(e) => {
+                      onChangeProductCount(
+                        selectedProduct.id,
+                        parseInt(e.target.value, 10)
+                      );
+                    }}
+                    onBlur={(e) => {
+                      if (e.target.value === "") {
+                        onChangeProductCount(selectedProduct.id, 1);
+                      }
+                    }}
+                  />
+                  <button
+                    className="py-1 px-3 rounded-md bg-red-300 cursor-pointer"
+                    onClick={() => onClickRemoveProduct(selectedProduct.id)}
+                  >
+                    Remove
+                  </button>
+                </span>
+              </li>
+            ))}
+          </ul>
+
+          {/* Render list of all campaigns */}
+          <ul className="bg-amber-100 border-2 border-dashed h-1/3 p-4 flex flex-col gap-2 overflow-auto"></ul>
+
+          {/* Render discount calculation */}
+          <ul className="bg-amber-100 border-2 border-dashed h-1/3 p-4 flex flex-col gap-2 overflow-auto"></ul>
+        </span>
       </div>
     </>
   );
