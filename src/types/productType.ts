@@ -1,5 +1,5 @@
 // Define an enum for product categories
-export enum Category {
+export enum ProductCategory {
   Clothing = "Clothing",
   Accessories = "Accessories",
   Electronics = "Electronics",
@@ -8,10 +8,11 @@ export enum Category {
   Sports = "Sports",
 }
 
-// Define a Product type
 export type Product = {
   id: number;
   name: string;
-  category: Category;
+  category: ProductCategory;
   price: number;
 };
+
+export type SelectedProduct = Product & { count: number };
