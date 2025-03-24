@@ -75,7 +75,7 @@ export default function applyDiscounts(
       break;
   }
 
-  return finalPrice;
+  return Math.round(finalPrice * 100) / 100;
 }
 
 /**
