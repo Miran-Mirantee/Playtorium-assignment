@@ -5,11 +5,17 @@ import {
   CampaignName,
 } from "../types/campaignType";
 
+/**
+ * Calculates the total discounted price of items based on applied campaigns
+ * @param selectedProducts current items in shopping cart
+ * @param campaigns active campaigns applied to the order
+ * @returns discounted price after applied all of the campaigns
+ */
 export default function applyDiscounts(
   selectedProducts: SelectedProduct[],
   campaigns: Campaign[]
 ): number {
-  let finalPrice = calculateBasePrice(selectedProducts); // Assume you calculate the base price of the items
+  let finalPrice = calculateBasePrice(selectedProducts);
 
   // 1. Apply OnTop campaigns first
   const onTop = campaigns.find(
@@ -33,8 +39,6 @@ export default function applyDiscounts(
       break;
   }
 
-  console.log(onTop);
-
   // 2. Apply Seasonal campaigns
   const seasonal = campaigns.find(
     (campaign) => campaign.category === CampaignCategory.Seasonal
@@ -52,8 +56,6 @@ export default function applyDiscounts(
     default:
       break;
   }
-
-  console.log(seasonal);
 
   // 3. Apply Coupon campaigns last
   const coupon = campaigns.find(
@@ -73,26 +75,17 @@ export default function applyDiscounts(
       break;
   }
 
-  console.log(coupon);
-
-  //   campaigns
-  //     .filter(
-  //       (campaign) =>
-  //         campaign.category === CampaignCategory.Coupon &&
-  //         !appliedCampaigns.has(campaign.category)
-  //     )
-  //     .forEach((campaign) => {
-  //       console.log(campaign);
-  //       console.log(appliedCampaigns);
-
-  //       //   finalPrice = applyCampaign(finalPrice, campaign);
-  //       appliedCampaigns.add(campaign.category);
-  //     });
-
   return finalPrice;
 }
 
-const calculateBasePrice = (selectedProducts: SelectedProduct[]): number => {
+/**
+ * Calculates the total price of selected products before any discounts
+ * @param selectedProducts current items in shopping cart
+ * @returns total price of the products without applying any discounts
+ */
+export const calculateBasePrice = (
+  selectedProducts: SelectedProduct[]
+): number => {
   return selectedProducts.reduce(
     (total, selectedProduct) =>
       total + selectedProduct.price * selectedProduct.count,
@@ -118,7 +111,9 @@ const applyPercentageCategory = (
     if (selectedProduct.category === category) {
       return (
         total +
-        selectedProduct.price * (1 - discountPercentage) * selectedProduct.count
+        selectedProduct.price *
+          (1 - Math.min(discountPercentage, 1)) *
+          selectedProduct.count
       );
     } else {
       return total + selectedProduct.price * selectedProduct.count;
@@ -188,5 +183,5 @@ const applyFixed = (discountAmount: number, currentPrice: number) => {
  * @returns discounted price after applying the campaign
  */
 const applyPercentage = (discountPercentage: number, currentPrice: number) => {
-  return currentPrice * (1 - discountPercentage);
+  return currentPrice * (1 - Math.min(discountPercentage, 1));
 };
