@@ -18,3 +18,7 @@ However, if we apply the "Special Campaigns" first and then the "Fixed Amount" c
 - React
 - TypeScript
 - TailwindCSS
+
+## Live
+
+https://playtorium-assignment-virid.vercel.app/
