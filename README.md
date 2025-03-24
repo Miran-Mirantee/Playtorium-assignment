@@ -1,54 +1,20 @@
-# React + TypeScript + Vite
+# Discount module
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Kantawat Samarntrakulchai
 
-Currently, two official plugins are available:
+## Changes Made from the Original Requirements
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+I changed the order of applying campaigns from **Coupon > On Top > Seasonal** to **On Top > Seasonal > Coupon**. The reason for this change is that it doesn't make sense to apply the coupon before any other campaigns. For example, if we apply a "Fixed Amount" campaign (a coupon) first, how can we calculate the discounted price when we apply a "Percentage Discount by Item Category" campaign afterward? The "Fixed Amount" reduces the total price after summing the costs of all items, whereas the "Percentage Discount by Item Category" applies to specific items.
 
-## Expanding the ESLint configuration
+As for applying the coupon campaign after the seasonal campaign, if we apply a "Fixed Amount" coupon before a seasonal campaign like "Special Campaigns," the customer might not get the most value out of the campaign. A campaign like "Fixed Amount" reduces the total cost of the shopping cart, while "Special Campaigns" reduces the total cost by a fixed amount (Y THB) for every threshold (X THB) in the total price. By applying the "Fixed Amount" first, we could reduce the effectiveness of the "Special Campaigns."
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+For example, if a customer is buying an item that costs **2,800** THB, and we apply a "Fixed Amount" campaign first, reducing the total price by 400 THB, the price would be 2,400 THB. Applying the "Special Campaigns" afterward (which gives 20 THB off for every 100 THB spent) would reduce the price by 480 THB **(2,400 / 100 \* 20)**, leaving a final price of **1,920** THB.
 
-```js
-export default tseslint.config({
-  extends: [
-    // Remove ...tseslint.configs.recommended and replace with this
-    ...tseslint.configs.recommendedTypeChecked,
-    // Alternatively, use this for stricter rules
-    ...tseslint.configs.strictTypeChecked,
-    // Optionally, add this for stylistic rules
-    ...tseslint.configs.stylisticTypeChecked,
-  ],
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
-```
+However, if we apply the "Special Campaigns" first and then the "Fixed Amount" coupon, the total price would be reduced by 560 THB **(2,800 / 100 \* 20)**, bringing the price down to 2,240 THB. Applying the "Fixed Amount" afterward would further reduce it by 400 THB, leading to a final price of **1,840** THB, which offers better value for the customer.
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Technologies
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
-
-export default tseslint.config({
-  plugins: {
-    // Add the react-x and react-dom plugins
-    'react-x': reactX,
-    'react-dom': reactDom,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended typescript rules
-    ...reactX.configs['recommended-typescript'].rules,
-    ...reactDom.configs.recommended.rules,
-  },
-})
-```
+- Vite
+- React
+- TypeScript
+- TailwindCSS
