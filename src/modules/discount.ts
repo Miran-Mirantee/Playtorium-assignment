@@ -102,7 +102,7 @@ export const calculateBasePrice = (
  * @param selectedProducts current items in shopping cart
  * @returns discounted price after applying the campaign
  */
-const applyPercentageCategory = (
+export const applyPercentageCategory = (
   category: ProductCategory,
   discountPercentage: number,
   selectedProducts: SelectedProduct[]
@@ -120,7 +120,7 @@ const applyPercentageCategory = (
     }
   }, 0);
 
-  return discountedPrice;
+  return Math.round(discountedPrice * 100) / 100;
 };
 
 /**
@@ -132,7 +132,7 @@ const applyPercentageCategory = (
  * @param currentPrice current total price of the items in shopping cart
  * @returns discounted price after applying the campaign
  */
-const applyPoint = (customerPoint: number, currentPrice: number) => {
+export const applyPoint = (customerPoint: number, currentPrice: number) => {
   let discountedPrice = currentPrice;
   if (Math.round(currentPrice * 0.2) >= customerPoint) {
     discountedPrice -= customerPoint;
@@ -150,7 +150,7 @@ const applyPoint = (customerPoint: number, currentPrice: number) => {
  * @param currentPrice current total price of the items in shopping cart
  * @returns discounted price after applying the campaign
  */
-const applySpecial = (
+export const applySpecial = (
   threshold: number,
   discountAmount: number,
   currentPrice: number
@@ -170,7 +170,7 @@ const applySpecial = (
  * @param currentPrice current total price of the items in shopping cart
  * @returns discounted price after applying the campaign
  */
-const applyFixed = (discountAmount: number, currentPrice: number) => {
+export const applyFixed = (discountAmount: number, currentPrice: number) => {
   return Math.max(0, currentPrice - discountAmount);
 };
 
@@ -182,6 +182,11 @@ const applyFixed = (discountAmount: number, currentPrice: number) => {
  * @param currentPrice current total price of the items in shopping cart
  * @returns discounted price after applying the campaign
  */
-const applyPercentage = (discountPercentage: number, currentPrice: number) => {
-  return currentPrice * (1 - Math.min(discountPercentage, 1));
+export const applyPercentage = (
+  discountPercentage: number,
+  currentPrice: number
+) => {
+  return (
+    Math.round(currentPrice * (1 - Math.min(discountPercentage, 1)) * 100) / 100
+  );
 };
