@@ -18,7 +18,42 @@ However, if we apply the "Special Campaigns" first and then the "Fixed Amount" c
 - React
 - TypeScript
 - TailwindCSS
+- Vitest
 
 ## Live
 
-https://playtorium-assignment-virid.vercel.app/
+[Live Demo](https://playtorium-assignment-virid.vercel.app/)
+
+## Local Setup
+
+1. Clone the repository:
+
+```bash
+git clone https://github.com/Miran-Mirantee/Playtorium-assignment.git
+```
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Start the development server:
+
+```bash
+npm run dev
+```
+
+4. Build the project for production:
+
+```bash
+npm run build
+```
+
+## Testing
+
+To run tests with Vitest:
+
+```bash
+npm run test
+```
